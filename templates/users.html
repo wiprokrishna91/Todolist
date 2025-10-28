@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - Todo App</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👥 User Management</h1>
+            <p>Add new users and access their dashboards</p>
+        </div>
+        
+        <div class="content">
+            <div class="nav-links">
+                <a href="/" class="btn">🏠 Home</a>
+            </div>
+            
+            <!-- Add New User Form -->
+            <div style="background: linear-gradient(135deg, #a8edea, #fed6e3); padding: 25px; border-radius: 15px; margin-bottom: 30px;">
+                <h2 style="margin-bottom: 20px; color: #333;">➕ Add New User</h2>
+                <form method="post" action="/users">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Create User</button>
+                </form>
+            </div>
+            
+            <!-- Users List -->
+            <h2 style="margin-bottom: 20px; color: #333;">📋 All Users</h2>
+            {% if users %}
+                {% for user in users %}
+                <div class="user-card">
+                    <div>
+                        <h3>{{ user[1] }}</h3>
+                        <p>📧 {{ user[2] }}</p>
+                        <small style="color: #666;">Created: {{ user[3] }}</small>
+                    </div>
+                    <div>
+                        <a href="/dashboard/{{ user[0] }}" class="btn">📊 Dashboard</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <h3>No users yet!</h3>
+                    <p>Create your first user above to get started.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

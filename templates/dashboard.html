@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user[1] }}'s Dashboard - Todo App</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 {{ user[1] }}'s Dashboard</h1>
+            <p>Welcome back! Let's get things done today.</p>
+        </div>
+        
+        <div class="content">
+            <div class="nav-links">
+                <a href="/" class="btn">🏠 Home</a>
+                <a href="/users" class="btn">👥 All Users</a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>{{ todos|length }}</h3>
+                    <p>Total Tasks</p>
+                </div>
+                <div class="stat-card">
+                    <h3>{{ todos|selectattr('3', 'equalto', 1)|list|length }}</h3>
+                    <p>Completed</p>
+                </div>
+                <div class="stat-card">
+                    <h3>{{ todos|selectattr('3', 'equalto', 0)|list|length }}</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+            
+            <!-- Add New Todo Form -->
+            <div style="background: linear-gradient(135deg, #a8edea, #fed6e3); padding: 25px; border-radius: 15px; margin-bottom: 30px;">
+                <h2 style="margin-bottom: 20px; color: #333;">➕ Add New Task</h2>
+                <form method="post" action="/todos">
+                    <input type="hidden" name="user_id" value="{{ user[0] }}">
+                    <div class="form-group">
+                        <label for="title">Task Title:</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description (optional):</label>
+                        <textarea id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Task</button>
+                </form>
+            </div>
+            
+            <!-- Todos List -->
+            <h2 style="margin-bottom: 20px; color: #333;">📝 Your Tasks</h2>
+            {% if todos %}
+                {% for todo in todos %}
+                <div class="todo-item {% if todo[4] %}completed{% endif %}">
+                    <div class="todo-text">
+                        <h3>{{ todo[2] }}</h3>
+                        {% if todo[3] %}
+                            <p>{{ todo[3] }}</p>
+                        {% endif %}
+                        <small style="color: #999;">Created: {{ todo[5] }}</small>
+                    </div>
+                    <div class="todo-actions">
+                        <form method="post" action="/todos/{{ todo[0] }}/toggle" style="display: inline;">
+                            <input type="hidden" name="user_id" value="{{ user[0] }}">
+                            <button type="submit" class="btn {% if todo[4] %}btn-danger{% else %}btn-success{% endif %}">
+                                {% if todo[4] %}↩️ Undo{% else %}✅ Complete{% endif %}
+                            </button>
+                        </form>
+                        <form method="post" action="/todos/{{ todo[0] }}/delete" style="display: inline;">
+                            <input type="hidden" name="user_id" value="{{ user[0] }}">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this task?')">
+                                🗑️ Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <h3>No tasks yet!</h3>
+                    <p>Add your first task above to get started.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
