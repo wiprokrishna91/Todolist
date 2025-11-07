@@ -1,16 +1,17 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15
+  mysql:
+    image: mysql:8.0
     environment:
-      POSTGRES_DB: todoapp
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      MYSQL_DATABASE: todoapp
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+      MYSQL_ROOT_PASSWORD: rootpassword
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
     ports:
-      - "5432:5432"
+      - "3306:3306"
     restart: unless-stopped
 
   todoapp:
@@ -18,14 +19,14 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DB_HOST=postgres
+      - DB_HOST=mysql
       - DB_NAME=todoapp
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_PORT=5432
+      - DB_USER=mysql
+      - DB_PASSWORD=mysql
+      - DB_PORT=3306
     depends_on:
-      - postgres
+      - mysql
     restart: unless-stopped
 
 volumes:
-  postgres_data:
+  mysql_data:

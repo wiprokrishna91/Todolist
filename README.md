@@ -1,6 +1,6 @@
 # Simple Todo List App
 
-A beautiful and simple todo list application built with FastAPI and PostgreSQL.
+A beautiful and simple todo list application built with FastAPI and MySQL.
 
 ## Features
 
@@ -8,7 +8,7 @@ A beautiful and simple todo list application built with FastAPI and PostgreSQL.
 - 📊 Personal dashboard for each user
 - ✅ Add, complete, and delete todos
 - 📱 Responsive design with colorful UI
-- 🗄️ PostgreSQL database for data persistence
+- 🗄️ MySQL database for data persistence
 
 ## Installation
 
@@ -22,7 +22,7 @@ pip install -r requirements.txt
 docker-compose up -d
 ```
 
-Or run locally (requires PostgreSQL):
+Or run locally (requires MySQL):
 ```bash
 python main.py
 ```
@@ -67,7 +67,7 @@ python main.py
 
 ## Docker Usage
 
-Run the entire application with PostgreSQL:
+Run the entire application with MySQL:
 ```bash
 docker-compose up -d
 ```
